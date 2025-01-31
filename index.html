@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSystem Awareness System</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .eco-gradient {
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+    <!-- Navigation -->
+    <nav class="glass-card fixed w-full z-50 p-4">
+        <div class="container mx-auto">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="bi bi-tree text-green-600 text-2xl"></i>
+                    <span class="text-xl font-semibold text-green-700">EcoAware</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#dashboard" class="text-gray-700 hover:text-green-600">Dashboard</a>
+                    <a href="#biodiversity" class="text-gray-700 hover:text-green-600">Biodiversity</a>
+                    <a href="#conservation" class="text-gray-700 hover:text-green-600">Conservation</a>
+                    <a href="#community" class="text-gray-700 hover:text-green-600">Community</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                    <i class="bi bi-list text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu mt-4 md:hidden">
+                <div class="flex flex-col space-y-4">
+                    <a href="#dashboard" class="text-gray-700 hover:text-green-600">Dashboard</a>
+                    <a href="#biodiversity" class="text-gray-700 hover:text-green-600">Biodiversity</a>
+                    <a href="#conservation" class="text-gray-700 hover:text-green-600">Conservation</a>
+                    <a href="#community" class="text-gray-700 hover:text-green-600">Community</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto pt-24 px-4">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="py-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Environmental Dashboard</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Air Quality</h3>
+                    <div class="text-4xl font-bold text-green-600" id="aqi">Loading...</div>
+                    <p class="text-gray-600 mt-2">Air Quality Index</p>
+                </div>
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Temperature</h3>
+                    <div class="text-4xl font-bold text-blue-600" id="temperature">Loading...</div>
+                    <p class="text-gray-600 mt-2">Celsius</p>
+                </div>
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Humidity</h3>
+                    <div class="text-4xl font-bold text-teal-600" id="humidity">Loading...</div>
+                    <p class="text-gray-600 mt-2">Relative Humidity</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Biodiversity Section -->
+        <section id="biodiversity" class="py-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Local Biodiversity</h2>
+            <div class="glass-card p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <h3 class="text-xl font-semibold">Species Count</h3>
+                        <div class="flex items-center space-x-4">
+                            <i class="bi bi-flower1 text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-gray-600">Flora</p>
+                                <p class="text-2xl font-bold" id="flora-count">Loading...</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <i class="bi bi-bug text-2xl text-green-600"></i>
+                            <div>
+                                <p class="text-gray-600">Fauna</p>
+                                <p class="text-2xl font-bold" id="fauna-count">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <canvas id="biodiversity-chart" class="w-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conservation Section -->
+        <section id="conservation" class="py-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Conservation Efforts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Active Projects</h3>
+                    <div id="projects-list" class="space-y-4">
+                        <!-- Projects will be loaded here -->
+                    </div>
+                </div>
+                <div class="glass-card p-6">
+                    <h3 class="text-xl font-semibold mb-4">Get Involved</h3>
+                    <form id="volunteer-form" class="space-y-4">
+                        <input type="text" placeholder="Your Name" class="w-full p-2 rounded glass-card" required>
+                        <input type="email" placeholder="Your Email" class="w-full p-2 rounded glass-card" required>
+                        <select class="w-full p-2 rounded glass-card" required>
+                            <option value="">Select Project</option>
+                            <option value="reforestation">Reforestation</option>
+                            <option value="wildlife">Wildlife Protection</option>
+                            <option value="education">Environmental Education</option>
+                        </select>
+                        <button type="submit" class="w-full py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                            Volunteer Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community" class="py-8 mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Community Hub</h2>
+            <div class="glass-card p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <h3 class="text-xl font-semibold mb-4">Recent Activities</h3>
+                        <div id="activities-feed" class="space-y-4">
+                            <!-- Activities will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-xl font-semibold mb-4">Share Your Story</h3>
+                        <form id="story-form" class="space-y-4">
+                            <input type="text" placeholder="Title" class="w-full p-2 rounded glass-card" required>
+                            <textarea placeholder="Share your environmental story..." class="w-full p-2 rounded glass-card h-32" required></textarea>
+                            <button type="submit" class="w-full py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                                Share Story
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Simulate real-time data updates
+        function updateEnvironmentalData() {
+            document.getElementById('aqi').textContent = Math.floor(Math.random() * 100);
+            document.getElementById('temperature').textContent = (Math.random() * 30).toFixed(1);
+            document.getElementById('humidity').textContent = Math.floor(Math.random() * 100) + '%';
+        }
+
+        function updateBiodiversityData() {
+            document.getElementById('flora-count').textContent = Math.floor(Math.random() * 1000);
+            document.getElementById('fauna-count').textContent = Math.floor(Math.random() * 500);
+        }
+
+        // Initialize Biodiversity Chart
+        const ctx = document.getElementById('biodiversity-chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Species Growth',
+                    data: [65, 59, 80, 81, 56, 55],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        });
+
+        // Load Conservation Projects
+        const projects = [
+            { name: 'Reforestation Drive', status: 'Active', volunteers: 45 },
+            { name: 'Wildlife Protection', status: 'Active', volunteers: 32 },
+            { name: 'Environmental Education', status: 'Planning', volunteers: 18 }
+        ];
+
+        const projectsList = document.getElementById('projects-list');
+        projects.forEach(project => {
+            const div = document.createElement('div');
+            div.className = 'flex justify-between items-center';
+            div.innerHTML = `
+                <div>
+                    <h4 class="font-semibold">${project.name}</h4>
+                    <p class="text-sm text-gray-600">${project.volunteers} volunteers</p>
+                </div>
+                <span class="px-2 py-1 rounded bg-green-100 text-green-800 text-sm">${project.status}</span>
+            `;
+            projectsList.appendChild(div);
+        });
+
+        // Load Community Activities
+        const activities = [
+            { user: 'EcoWarrior', action: 'planted 5 trees', time: '2 hours ago' },
+            { user: 'GreenThumb', action: 'reported wildlife sighting', time: '5 hours ago' },
+            { user: 'EarthGuardian', action: 'organized beach cleanup', time: '1 day ago' }
+        ];
+
+        const activitiesFeed = document.getElementById('activities-feed');
+        activities.forEach(activity => {
+            const div = document.createElement('div');
+            div.className = 'border-l-4 border-green-400 pl-4';
+            div.innerHTML = `
+                <p class="font-semibold">${activity.user}</p>
+                <p class="text-gray-600">${activity.action}</p>
+                <p class="text-sm text-gray-500">${activity.time}</p>
+            `;
+            activitiesFeed.appendChild(div);
+        });
+
+        // Form Submissions
+        document.getElementById('volunteer-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for volunteering! We will contact you soon.');
+            e.target.reset();
+        });
+
+        document.getElementById('story-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Your story has been shared with the community!');
+            e.target.reset();
+        });
+
+        // Initial data load and periodic updates
+        updateEnvironmentalData();
+        updateBiodiversityData();
+        setInterval(updateEnvironmentalData, 5000);
+        setInterval(updateBiodiversityData, 10000);
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
